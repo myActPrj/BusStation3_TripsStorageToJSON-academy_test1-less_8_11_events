@@ -1,6 +1,6 @@
 ﻿using BusStation.Model;
 using BusStation.View;
-
+using System.Collections.Generic;
 namespace BusStation.Controller
 {
     public class MainMenuController
@@ -21,6 +21,11 @@ namespace BusStation.Controller
                 case 1:
                     ShowTripsTable();
                     break;
+                case 2:
+                    ShowTripsTableById();
+                    break;
+
+
                 default:
                     _menuView.ShowError();
                     break;
@@ -42,7 +47,21 @@ namespace BusStation.Controller
 
         private void ShowTripsTable()
         {
+            //if (TripsStorage.LoadTrips()) // не виріши як краще, чи перевіряти на корректність данних (якщо TripsStorage.Trips буде сам оновлюватися кожен раз з файла)
             _menuView.ShowTripsTable(TripsStorage.Trips);
         }
+
+        private void ShowTripsTableById()
+        {
+            
+            int id = 1;
+
+            List<TripModel> trips;
+            trips = TripsStorage.GetById(TripsStorage.Trips, id);
+
+            _menuView.ShowTripsTable(trips);
+        }
+
+
     }
 }
