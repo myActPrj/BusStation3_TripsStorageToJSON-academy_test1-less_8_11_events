@@ -32,6 +32,7 @@ namespace BusStation.Model
 
         public static bool LoadTrips()
         {
+            _trips.Clear();
             if (loadTripsFile(_tripsFFileName, out string tripsJSON))
             {
                 try
@@ -110,32 +111,51 @@ namespace BusStation.Model
         }
         //----------------------------------
 
-
-        //----------------------------------
-        // GetById фильтрация по Id
-        //----------------------------------
-        public static List<TripModel> GetById(List<TripModel> trips, int id)
+        public static bool DeleteTripById(int id)
         {
-            //IEnumerable<TripModel> tripsById = trips.Where( trip => trip.Id==1);
+            bool _deleteDone = false;
 
-            List<TripModel> tripsById = trips.Where(trip => trip.Id == id);
+            for (int i = 0; i < _trips.Count-1; i++)
+            {
+                if(_trips[i].Id==id)
+                {
+                    _trips.RemoveAt(i);
+                    _deleteDone = true;
+                    break;
+                }
+            }
 
-                    //------------
-                    //отладка НЕ ВИВОДЕ
-                    //------------
-                    foreach (var _tripById in tripsById)
-                    {
-                        Console.WriteLine(_tripById.Id);
-                    }
-                    //------------
+            if (_deleteDone)
+            {
+                if (SaveTrips()==false)
+                {
+                    LoadTrips();
+                    return false;
+                }
+            }
 
-
-            return tripsById;
+            return _deleteDone;
         }
 
-        //----------------------------------
+        // "LINQ" vs "for" ????
+        public static bool DeleteTripByIdLINQ(int id)
+        {
+            if (_trips.Any(trip => trip.Id == id))
+            {
+                _trips = _trips.Where(trip => trip.Id != id).ToList();
 
-
+                if (SaveTrips() == false)
+                {
+                    LoadTrips();
+                    return false;
+                }
+                return true;
+            }
+            else
+            { 
+                return false;
+            }
+        }
 
     }
 }

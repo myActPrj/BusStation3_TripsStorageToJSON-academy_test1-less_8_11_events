@@ -19,15 +19,31 @@ namespace BusStation.Controller
             switch (menu)
             {
                 case 1:
-                    ShowTripsTable();
+                    showTripsTable();
                     break;
                 case 2:
-                    ShowTripsTableById();
+                    showTripsTableById();
                     break;
-
-
+                case 3:
+                    ShowTripsTableByTripTo();
+                    break;
+                //case 4:
+                //    ShowTripsTableByCurrentDay();
+                //    break;
+                //case 5:
+                //    ShowTripsTableByNext7Days();
+                //    break;
+                //case 6:
+                //    ShowTripsTableByTicketPriceLess();
+                //    break;
+                //case 7:
+                //    ShowTripsTableByCapacity(); //CapacityFree
+                //    break;
+                //case 8:
+                //    LoginAsAdmin();
+                //    break;
                 default:
-                    _menuView.ShowError();
+                    _menuView.ShowError("невідомий пункт меню");
                     break;
             }
         }
@@ -45,23 +61,29 @@ namespace BusStation.Controller
             _menuView.MenuSelected -= MenuSelectedHandler;
         }
 
-        private void ShowTripsTable()
+        private void showTripsTable()
         {
             //if (TripsStorage.LoadTrips()) // не виріши як краще, чи перевіряти на корректність данних (якщо TripsStorage.Trips буде сам оновлюватися кожен раз з файла)
-            _menuView.ShowTripsTable(TripsStorage.Trips);
+            //_menuView.ShowTripsTable(TripsStorage.Trips);
+            var tripsShow = new TripsViewController();
+            tripsShow.ShowTripsTable();
         }
 
-        private void ShowTripsTableById()
+        private void showTripsTableById()
         {
             
-            int id = 1;
+            //int id = 1;
 
-            List<TripModel> trips;
-            trips = TripsStorage.GetById(TripsStorage.Trips, id);
-
-            _menuView.ShowTripsTable(trips);
+            //List<TripModel> trips = TripsFilterStorage.GetTripsById(TripsStorage.Trips, id);
+            //// _menuView.ShowTripsTable(trips);
+            var tripsShow = new TripsViewController();
+            tripsShow.ShowTripsTableById();
         }
 
+        private void ShowTripsTableByTripTo()
+        {
+            System.Console.WriteLine("І ще не реалізовано.... Soryy");
+        }
 
     }
 }
