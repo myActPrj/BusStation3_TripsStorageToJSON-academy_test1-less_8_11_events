@@ -3,12 +3,12 @@ using BusStation.View;
 using System.Collections.Generic;
 namespace BusStation.Controller
 {
-    public class MainMenuController
+    public class ShowTripsTableByCurrentDay
     {
         private readonly MainMenuView _menuView;
         private readonly MenuChoiceStorage _choiceStorage;
 
-        public MainMenuController()
+        public ShowTripsTableByCurrentDay()
         {
             _menuView = new MainMenuView();
             _choiceStorage = MenuChoiceStorage.GetInstance();
@@ -27,9 +27,9 @@ namespace BusStation.Controller
                 case 3:
                     ShowTripsTableByTripTo();
                     break;
-                //case 4:
-                //    ShowTripsTableByCurrentDay();
-                //    break;
+                case 4:
+                    showTripsTableByCurrentDay();
+                    break;
                 //case 5:
                 //    ShowTripsTableByNext7Days();
                 //    break;
@@ -71,18 +71,20 @@ namespace BusStation.Controller
 
         private void showTripsTableById()
         {
-            
-            //int id = 1;
-
-            //List<TripModel> trips = TripsFilterStorage.GetTripsById(TripsStorage.Trips, id);
-            //// _menuView.ShowTripsTable(trips);
             var tripsShow = new TripsViewController();
             tripsShow.ShowTripsTableById();
         }
 
         private void ShowTripsTableByTripTo()
         {
-            System.Console.WriteLine("І ще не реалізовано.... Soryy");
+            var tripsShow = new TripsViewController();
+            tripsShow.ShowTripsTableByTripTo();
+        }
+
+        private void showTripsTableByCurrentDay()
+        {
+            var tripsShow = new TripsViewController();
+            tripsShow.ShowTripsTableByCurrentDay();
         }
 
     }
