@@ -10,6 +10,7 @@ namespace BusStation.View
     {
         public event Action<string> ShowInfo = delegate { };
         public event Action<int> ShowTripsByInputId = delegate { };
+        public event Action<string> ShowTripsByInputTripTo = delegate { };
 
         private readonly InputComponent _input;
 
@@ -55,6 +56,13 @@ namespace BusStation.View
             ShowTripsByInputId(tripId);
         }
 
+        public void GoInputTripTo()
+        {
+            Console.WriteLine("Please input Trip To:");
+            var _input = new InputComponent();
+            String tripTo = _input.GetInputString();
+            ShowTripsByInputTripTo(tripTo);
+        }
 
     }
 }

@@ -17,5 +17,11 @@ namespace BusStation.View
             } while (!isParsed);
             return result;
         }
+
+        public string GetInputString()
+        {
+            string result = Console.ReadLine();
+            return result;
+        }
     }
 }

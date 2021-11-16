@@ -18,7 +18,8 @@ namespace BusStation.Model
             {
                 new MenuChoiceModel(1, "Show all"),
                 new MenuChoiceModel(2, "Find by Id"),
-                new MenuChoiceModel(3, "Find by destination")
+                new MenuChoiceModel(3, "Find by destination"),
+                new MenuChoiceModel(4, "Find by current day")
             };
         }
 
