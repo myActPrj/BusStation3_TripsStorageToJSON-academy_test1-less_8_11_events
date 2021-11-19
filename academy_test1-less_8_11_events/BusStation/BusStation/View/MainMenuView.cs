@@ -20,32 +20,17 @@ namespace BusStation.View
         
         public void ShowHeader()
         {
-            Console.WriteLine("Hello brodyaga, how can I help you?");
+            //Console.Clear();
+            Console.WriteLine("MAIN MENU:");
         }
         
-        //Клас 'MainMenuView' - показуэ тільки меню і його пункти, для відображення табл.маршрутів є суто-клас 'TripsView' 
-        //    public void ShowTripsTable(List<TripModel> trips)
-        //    {
-        //        ShowTripsHeader();
-        //        if(trips.Count==0)
-        //        {
-        //            ShowInfo("Табличка пуста");
-        //        }
-        //        foreach (var oneTrip in trips)
-        //        {
-        //            //Console.WriteLine($"{oneTrip.Id} : {oneTrip.DepartureTime.ToShortDateString()} : {oneTrip.TripFrom} .....");
-        //            Console.WriteLine($"{oneTrip.Id,3} | {oneTrip.DepartureTime.ToShortDateString(),12} | {oneTrip.TripFrom,8}" +
-        //$" | {oneTrip.ArrivalTime.ToShortDateString(),12} | {oneTrip.TripTo,8} | {oneTrip.Bus.Name,8} | {oneTrip.Bus.Capacity,13} | {oneTrip.TicketPrice,4}");
-        //        }
-        //    }
-
         public void ShowMenu(List<MenuChoiceModel> choices)
         {
             foreach (var choice in choices)
             {
                 Console.WriteLine($"{choice.ChoiceId} - {choice.ChoiceText}");
             }
-
+            Console.WriteLine("-----------");
             var isCorrect = false;
             do
             {

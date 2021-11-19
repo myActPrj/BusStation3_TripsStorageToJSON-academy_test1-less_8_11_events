@@ -18,7 +18,7 @@ namespace BusStation.Model
         //    new TripModel(3, new DateTime(2022,1,13), "Kurvamat", new DateTime(2022,1,15), "Ternopil", new BusModel("Sprinter", 18), 1200)
         //};
 
-        public static List<TripModel> Trips
+        public List<TripModel> Trips
         {
             get
             {
@@ -26,11 +26,11 @@ namespace BusStation.Model
                 return _trips;
             }
         }
-        private static List<TripModel> _trips = new List<TripModel>();
+        private List<TripModel> _trips = new List<TripModel>();
 
-        private static string _tripsFFileName = @"..\..\..\Model\Trips.json";
-
-        public static bool LoadTrips()
+        private string _tripsFFileName = @"..\..\..\Model\Trips.json";
+        private static TripsStorage _instance;
+        public bool LoadTrips()
         {
             _trips.Clear();
             if (loadTripsFile(_tripsFFileName, out string tripsJSON))
@@ -47,7 +47,7 @@ namespace BusStation.Model
             }
             return false;
         }
-        private static bool loadTripsFile(string tripsFileName, out string trips)
+        private bool loadTripsFile(string tripsFileName, out string trips)
         {
             trips = "";
             if (new FileInfo(tripsFileName).Exists)
@@ -73,11 +73,11 @@ namespace BusStation.Model
             }
         }
 
-        public static bool SaveTrips()
+        public bool SaveTrips()
         {
             return saveTripsFile(_tripsFFileName);
         }
-        private static bool saveTripsFile(string tripsFileName)
+        private bool saveTripsFile(string tripsFileName)
         {
             string tripsJSON = JsonConvert.SerializeObject(_trips);
             try
@@ -98,20 +98,20 @@ namespace BusStation.Model
         //----------------------------------
         //ф-ї виведенння помилок виконнання/роботи з файлами
         //----------------------------------
-        private static void printError(string mesage)
+        private void printError(string mesage)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(mesage);
             Console.ResetColor();
         }
-        private static void printErrorFileInfo(string mesage, string fileName)
+        private void printErrorFileInfo(string mesage, string fileName)
         {
             string fullFileName = Path.GetFullPath(fileName);
             printError(mesage + fullFileName);
         }
         //----------------------------------
 
-        public static bool DeleteTripById(int id)
+        public bool DeleteTripById(int id)
         {
             bool _deleteDone = false;
 
@@ -136,25 +136,13 @@ namespace BusStation.Model
 
             return _deleteDone;
         }
-
-        // "LINQ" vs "for" ????
-        public static bool DeleteTripByIdLINQ(int id)
+        public static TripsStorage GetInstance()
         {
-            if (_trips.Any(trip => trip.Id == id))
+            if(_instance == null)
             {
-                _trips = _trips.Where(trip => trip.Id != id).ToList();
-
-                if (SaveTrips() == false)
-                {
-                    LoadTrips();
-                    return false;
-                }
-                return true;
+                _instance = new TripsStorage();
             }
-            else
-            { 
-                return false;
-            }
+            return _instance;
         }
 
     }

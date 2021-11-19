@@ -8,10 +8,12 @@ namespace BusStation
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-            var menuController = new ShowTripsTableByCurrentDay();
-            menuController.Run();
-            menuController.Stop();
+            while (true)
+            {
+                var menuController = new MainMenuController();
+                menuController.Run();
+                menuController.Stop();
+            }
         }
     }
 }

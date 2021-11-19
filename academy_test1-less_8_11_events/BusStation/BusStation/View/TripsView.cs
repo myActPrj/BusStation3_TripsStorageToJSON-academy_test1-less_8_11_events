@@ -11,6 +11,9 @@ namespace BusStation.View
         public event Action<string> ShowInfo = delegate { };
         public event Action<int> ShowTripsByInputId = delegate { };
         public event Action<string> ShowTripsByInputTripTo = delegate { };
+        public event Action<float> ShowTripsByTnputTripToTickedPriceLess = delegate { };
+        public event Action<int> ShowTripsByInputBusCapacityTheMore = delegate { };
+        public event Action GoReturnToMainMenu;
 
         private readonly InputComponent _input;
 
@@ -46,6 +49,14 @@ namespace BusStation.View
                 Console.WriteLine($"{oneTrip.Id,3} | {oneTrip.DepartureTime.ToShortDateString(),12} | {oneTrip.TripFrom,8}" +
     $" | {oneTrip.ArrivalTime.ToShortDateString(),12} | {oneTrip.TripTo,8} | {oneTrip.Bus.Name,8} | {oneTrip.Bus.Capacity,13} | {oneTrip.TicketPrice,4}");
             }
+            _input.GoNextWaitKeyEsc += goReturnMainMenu;
+            _input.WaitKeyEsc();
+        }
+
+        private void goReturnMainMenu()
+        {
+            _input.GoNextWaitKeyEsc -= goReturnMainMenu;
+            GoReturnToMainMenu();
         }
 
         public void GoInputTripId()
@@ -62,6 +73,22 @@ namespace BusStation.View
             var _input = new InputComponent();
             String tripTo = _input.GetInputString();
             ShowTripsByInputTripTo(tripTo);
+        }
+
+        public void GoInputTickerPririceLess()
+        {
+            Console.WriteLine("Please input show ticket price less, грн:");
+            var _input = new InputComponent();
+            float ticketPrice = _input.GetInputMoney();
+            ShowTripsByTnputTripToTickedPriceLess(ticketPrice);
+        }        
+        
+        public void GoInputBusCapacityIsMore()
+        {
+            Console.WriteLine("Please input show Bus capacity the more:");
+            var _input = new InputComponent();
+            int busCapacity = _input.GetInputInt();
+            ShowTripsByInputBusCapacityTheMore(busCapacity);
         }
 
     }
