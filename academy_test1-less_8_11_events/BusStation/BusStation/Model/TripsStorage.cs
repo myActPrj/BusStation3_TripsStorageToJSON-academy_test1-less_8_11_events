@@ -115,7 +115,7 @@ namespace BusStation.Model
         {
             bool _deleteDone = false;
 
-            for (int i = 0; i < _trips.Count-1; i++)
+            for (int i = 0; i <= _trips.Count-1; i++)
             {
                 if(_trips[i].Id==id)
                 {
@@ -135,6 +135,10 @@ namespace BusStation.Model
             }
 
             return _deleteDone;
+        }
+        private TripsStorage()
+        {
+            LoadTrips();
         }
         public static TripsStorage GetInstance()
         {

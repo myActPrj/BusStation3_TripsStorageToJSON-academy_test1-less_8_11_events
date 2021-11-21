@@ -9,7 +9,7 @@ namespace BusStation.View
 {
     public class MainMenuView
     {
-        public event Action<int> MenuSelected = delegate { };
+        //public event Action<int> MenuSelectedEvent = delegate { };
 
         private readonly InputComponent _input;
 
@@ -17,20 +17,29 @@ namespace BusStation.View
         {
             _input = new InputComponent();
         }
-        
-        public void ShowHeader()
+
+        private void ShowBorderLine()
         {
-            //Console.Clear();
-            Console.WriteLine("MAIN MENU:");
+            Console.WriteLine("---------------------------------");
         }
-        
-        public void ShowMenu(List<MenuChoiceModel> choices)
+        public void ShowHeader(string menuName)
+        {
+            Console.Clear();
+            ShowBorderLine();
+            //Console.WriteLine("MAIN MENU:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(menuName);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        public void ShowMenu(List<MenuChoiceModel> choices, Action<int> menuSelectedEventHandler)
         {
             foreach (var choice in choices)
             {
                 Console.WriteLine($"{choice.ChoiceId} - {choice.ChoiceText}");
             }
-            Console.WriteLine("-----------");
+            ShowBorderLine();
+            
             var isCorrect = false;
             do
             {
@@ -38,10 +47,25 @@ namespace BusStation.View
                 if (choices.Any(ch => ch.ChoiceId == userChoice))
                 {
                     isCorrect = true;
-                    MenuSelected(userChoice);
+                    menuSelectedEventHandler(userChoice);
                 }
             } while (!isCorrect);
+
         }
+
+        //public void WaitSelectMenuChoice(List<MenuChoiceModel> choices)
+        //{
+        //    var isCorrect = false;
+        //    do
+        //    {
+        //        var userChoice = _input.GetInputInt();
+        //        if (choices.Any(ch => ch.ChoiceId == userChoice))
+        //        {
+        //            isCorrect = true;
+        //            MenuSelectedEvent(userChoice);
+        //        }
+        //    } while (!isCorrect);
+        //}
 
         public void ShowError(string message)
         {
@@ -49,25 +73,18 @@ namespace BusStation.View
             Console.WriteLine("ERROR!!: "+ message);
             Console.ResetColor();
         }
-        //private void ShowTripsHeader()
+        //public void ShowInfo(string message)
         //{
-        //    //Console.WriteLine("N     DEPARTURE      FROM     .....");
-        //    Console.ForegroundColor = ConsoleColor.Green;
-        //    Console.WriteLine($"{"N",3} | {"DEPARTURE",12} | {"FROM",8} | {"ArrivalTime",12} | {"TripTo",8} | {"Bus.Name",8} | {"Bus.Capacity",13} | {"PRICE",4}");
-        //    Console.ForegroundColor = ConsoleColor.White;
+        //    Console.ForegroundColor = ConsoleColor.Blue;
+        //    Console.WriteLine("INFO!!: " + message);
+        //    Console.ResetColor();
         //}
-        public void ShowInfo(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("INFO!!: " + message);
-            Console.ResetColor();
-        }
-        public void ShowWarning(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("WARNING!!: " + message);
-            Console.ResetColor();
-        }
+        //public void ShowWarning(string message)
+        //{
+        //    Console.ForegroundColor = ConsoleColor.Yellow;
+        //    Console.WriteLine("WARNING!!: " + message);
+        //    Console.ResetColor();
+        //}
 
     }
 }

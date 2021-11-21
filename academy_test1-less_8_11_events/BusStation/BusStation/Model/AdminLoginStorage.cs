@@ -10,21 +10,10 @@ namespace BusStation.Controller
     {
         public string LoginName = "Admin";
         public string LoginPassword = "1";
-
         private static AdminLoginStorage _instance;
-
-        public bool IsPasswordCorrect(string password)
+        private AdminLoginStorage()
         {
-            if (password == LoginPassword)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
-
         public static AdminLoginStorage GetInstance()
         {
             if(_instance==null)
@@ -33,6 +22,5 @@ namespace BusStation.Controller
             }
             return _instance;
         }
-
     }
 }

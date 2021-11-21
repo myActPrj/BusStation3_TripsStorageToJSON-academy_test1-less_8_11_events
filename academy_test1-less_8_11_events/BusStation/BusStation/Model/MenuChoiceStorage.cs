@@ -24,7 +24,7 @@ namespace BusStation.Model
                 new MenuChoiceModel(6, "Find by ticket price less"),
                 new MenuChoiceModel(7, "Find by bus capacity the more"),
                 //new MenuChoiceModel(7, "Find by capacity free"),
-                new MenuChoiceModel(8, "Login as Admin")
+                new MenuChoiceModel(8, "Go Admin menu") //Login as Admin
             };
         }
 
@@ -37,5 +37,7 @@ namespace BusStation.Model
             return _instance;
         }
 
+        public string MenuName = "MAIN MENU:";
+     
     }
 }

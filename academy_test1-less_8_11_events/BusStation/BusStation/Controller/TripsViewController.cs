@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusStation.Model;
 
 namespace BusStation.Controller
 {
@@ -10,19 +11,41 @@ namespace BusStation.Controller
     {
         private readonly View.TripsView _tripsView;
         private readonly Model.TripsStorage _tripsStorage;
-        public Action GoReturnMainMenu;
-        public TripsViewController()
+        public Action ShowMenuInMainMainMenuController;
+        public TripsViewController(Action ShowMenuFuncEventHandler)
         {
+            _tripsStorage = TripsStorage.GetInstance();
             _tripsView = new View.TripsView();
-            _tripsStorage = Model.TripsStorage.GetInstance();
-
-            _tripsView.GoReturnToMainMenu += goReturnMainMenu;
+            _tripsView.GoReturnToMainMenu += GoReturnMainMenu;
+            ShowMenuInMainMainMenuController += ShowMenuFuncEventHandler;
+            SubScribeAllEvents();
         }
-        private void goReturnMainMenu()
+        ~TripsViewController()
         {
-            _tripsView.GoReturnToMainMenu -= goReturnMainMenu;
+            UnSubScribeAllEvents();
+            _tripsView.GoReturnToMainMenu -= GoReturnMainMenu;
+        }
+        private void SubScribeAllEvents()
+        {
+            _tripsView.ShowTripsByInputId += ShowTripsTableByInputId;
+            _tripsView.ShowTripsByInputTripTo += showTripsByInputTripTo;
+            _tripsView.ShowTripsByTnputTripToTickedPriceLess += ShowTripsTableByTicketInputPriceLess;
+            _tripsView.ShowTripsByInputBusCapacityTheMore += ShowTripsTableByInputBusCapacityTheMore;
+            _tripsView.DeleteTripsByInputId += DeleteTripsByInputId;
+        }
+        private void UnSubScribeAllEvents()
+        {
+            _tripsView.ShowTripsByInputId -= ShowTripsTableByInputId;
+            _tripsView.ShowTripsByInputTripTo -= showTripsByInputTripTo;
+            _tripsView.ShowTripsByTnputTripToTickedPriceLess -= ShowTripsTableByTicketInputPriceLess;
+            _tripsView.ShowTripsByInputBusCapacityTheMore -= ShowTripsTableByInputBusCapacityTheMore;
+            _tripsView.DeleteTripsByInputId -= DeleteTripsByInputId;
+        }
+        private void GoReturnMainMenu()
+        {
+            //_tripsView.GoReturnToMainMenu -= GoReturnMainMenu;
             Console.WriteLine("Go Main menu");
-            GoReturnMainMenu();
+            ShowMenuInMainMainMenuController();
         }
 
         public void ShowTripsTable()
@@ -32,26 +55,26 @@ namespace BusStation.Controller
 
         public void ShowTripsTableById()
         {
-            _tripsView.ShowTripsByInputId += showTripsTableByInputId;
+            //_tripsView.ShowTripsByInputId += showTripsTableByInputId;
             _tripsView.GoInputTripId();
         }
-        private void showTripsTableByInputId(int id)
+        private void ShowTripsTableByInputId(int id)
         {
             var trips = Model.TripsFilter.GetTripsById(_tripsStorage.Trips, id);
             _tripsView.ShowTripsTable(trips);
-            _tripsView.ShowTripsByInputId -= showTripsTableByInputId;
+            //_tripsView.ShowTripsByInputId -= showTripsTableByInputId;
         }
 
         public void ShowTripsTableByTripTo()
         {
-            _tripsView.ShowTripsByInputTripTo += showTripsByInputTripTo;
+            //_tripsView.ShowTripsByInputTripTo += showTripsByInputTripTo;
             _tripsView.GoInputTripTo();
         }
         private void showTripsByInputTripTo(string tripTo)
         {
             var trips = Model.TripsFilter.GetTripsByTripTo(_tripsStorage.Trips, tripTo);
             _tripsView.ShowTripsTable(trips);
-            _tripsView.ShowTripsByInputTripTo -= showTripsByInputTripTo;
+            //_tripsView.ShowTripsByInputTripTo -= showTripsByInputTripTo;
         }
 
         public void ShowTripsTableByCurrentDay()
@@ -76,26 +99,41 @@ namespace BusStation.Controller
 
         public void ShowTripsTableByTicketPriceLess()
         {
-            _tripsView.ShowTripsByTnputTripToTickedPriceLess += showTripsTableByTicketInputPriceLess;
+            //_tripsView.ShowTripsByTnputTripToTickedPriceLess += showTripsTableByTicketInputPriceLess;
             _tripsView.GoInputTickerPririceLess();
         }
-        private void showTripsTableByTicketInputPriceLess(float TicketPrice)
+        private void ShowTripsTableByTicketInputPriceLess(float TicketPrice)
         {
             var trips = Model.TripsFilter.GetTripByTicketPriceLess(_tripsStorage.Trips, TicketPrice);
             _tripsView.ShowTripsTable(trips);
-            _tripsView.ShowTripsByTnputTripToTickedPriceLess -= showTripsTableByTicketInputPriceLess;
+            //_tripsView.ShowTripsByTnputTripToTickedPriceLess -= showTripsTableByTicketInputPriceLess;
         }
 
         public void ShowTripsTableByBusCapacityTheMore()
         {
-            _tripsView.ShowTripsByInputBusCapacityTheMore += showTripsTableByInputBusCapacityTheMore;
+            //_tripsView.ShowTripsByInputBusCapacityTheMore += showTripsTableByInputBusCapacityTheMore;
             _tripsView.GoInputBusCapacityIsMore();
         }
-        private void showTripsTableByInputBusCapacityTheMore(int busCapacityTheMore)
+        private void ShowTripsTableByInputBusCapacityTheMore(int busCapacityTheMore)
         {
             var trips = Model.TripsFilter.GetTripByBusCapacityTheMore(_tripsStorage.Trips, busCapacityTheMore);
             _tripsView.ShowTripsTable(trips);
-            _tripsView.ShowTripsByInputBusCapacityTheMore -= showTripsTableByInputBusCapacityTheMore;
+            //_tripsView.ShowTripsByInputBusCapacityTheMore -= showTripsTableByInputBusCapacityTheMore;
         }
+
+        public void DeleteTripsById()
+        {
+            _tripsView.GoInputDeleteTripId();
+        }
+        private void DeleteTripsByInputId(int id)
+        {
+            //var trips = Model.TripsFilter.GetTripsById(_tripsStorage.Trips, id);
+            //_tripsView.ShowTripsTable(trips);
+
+            var tripStorage = TripsStorage.GetInstance();
+            tripStorage.DeleteTripById(id);
+            GoReturnMainMenu();
+        }
+
     }
 }

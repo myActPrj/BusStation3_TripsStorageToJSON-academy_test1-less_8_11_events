@@ -6,18 +6,22 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controller
 {
-    class AdminView
+    class AdminMenuView
     {
-        public event Action<string> GoLoginByInputPassword = delegate { };
+        public event Action<string> GoLoginByInputPasswordEvent = delegate { };
 
         private View.InputComponent _input;
 
-
-        public AdminView()
+        public AdminMenuView()
         {
             _input = new View.InputComponent();
         }
-
+        //public void ShowHeader()
+        //{
+        //    //Console.Clear();
+        //    Console.WriteLine("---------------------------------");
+        //    Console.WriteLine("ADMIN MENU:");
+        //}
         public void ShowAdminLoginDialog(AdminLoginStorage adminStorage)
         {
             bool isIputedPassword = false;
@@ -30,10 +34,10 @@ namespace BusStation.Controller
 
                 string inputPassword = _input.GetInputPassword();
 
-                if (adminStorage.IsPasswordCorrect(inputPassword))
+                if (adminStorage.LoginPassword == inputPassword)
                 {
                     isIputedPassword = true;
-                    GoLoginByInputPassword(inputPassword);
+                    GoLoginByInputPasswordEvent(inputPassword);
                 }
                 else
                 {

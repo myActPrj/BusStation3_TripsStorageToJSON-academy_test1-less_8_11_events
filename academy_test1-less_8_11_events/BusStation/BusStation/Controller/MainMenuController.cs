@@ -1,48 +1,47 @@
 ﻿using BusStation.Model;
 using BusStation.View;
-using System.Collections.Generic;
 namespace BusStation.Controller
 {
     public class MainMenuController
     {
         private readonly MainMenuView _menuView;
         private readonly MenuChoiceStorage _choiceStorage;
-        private readonly AdminController _login;
+        private readonly AdminMenuController _login;
 
         public MainMenuController()
         {
             _menuView = new MainMenuView();
             _choiceStorage = MenuChoiceStorage.GetInstance();
-            _login = new AdminController();
+            //_login = new AdminMenuController();
         }
 
-        private void MenuSelectedHandler(int menu)
+        private void MenuSelectedEvent(int menu)
         {
             switch (menu)
             {
                 case 1:
-                    showTripsTable();
+                    ShowTripsTable();
                     break;
                 case 2:
-                    showTripsTableById();
+                    ShowTripsTableById();
                     break;
                 case 3:
                     ShowTripsTableByTripTo();
                     break;
                 case 4:
-                    showTripsTableByCurrentDay();
+                    ShowTripsTableByCurrentDay();
                     break;
                 case 5:
-                    showTripsTableByNext7Days();
+                    ShowTripsTableByNext7Days();
                     break;
                 case 6:
-                    showTripsTableByTicketPriceLess();
+                    ShowTripsTableByTicketPriceLess();
                     break;
                 case 7:
-                    showTripsTableByBusCapacityTheMore();
+                    ShowTripsTableByBusCapacityTheMore();
                     break;
                 case 8:
-                    showAdminLoginDialog();
+                    ShowAdminLoginDialog();
                     break;
                 default:
                     _menuView.ShowError("невідомий пункт меню");
@@ -52,73 +51,75 @@ namespace BusStation.Controller
 
         public void Run()
         {
-            _menuView.MenuSelected += MenuSelectedHandler;
-            showMenu();
+            //_menuView.MenuSelectedEvent += MenuSelectedEvent;
+            ShowMenu();
         }
 
-        private void showMenu()
+        private void ShowMenu()
         {
-            _menuView.ShowHeader();
-            _menuView.ShowMenu(_choiceStorage.Choices);
+            _menuView.ShowHeader(_choiceStorage.MenuName);
+            _menuView.ShowMenu(_choiceStorage.Choices, MenuSelectedEvent);
+
+            //tripsShow.ShowMenuInMainMainMenuController -= showMenu;
         }
+        //private void ShowAdminMenu()
+        //{
+        //    _menuView.ShowHeader(_choiceStorage.MenuName);
+        //    _menuView.ShowMenu(_choiceStorage.Choices);
+        //}
 
         public void Stop()
         {
-            _menuView.MenuSelected -= MenuSelectedHandler;
+            //_menuView.MenuSelectedEvent -= MenuSelectedEvent;
+            //_tripsShow.ShowMenuInMainMainMenuController -= showMenu;
+            //_tripsShow = null;
         }
 
-        private void showTripsTable()
+        private void ShowTripsTable()
         {
-            var tripsShow = new TripsViewController();
-            tripsShow.GoReturnMainMenu += showMenu;
+            var tripsShow = new TripsViewController(ShowMenu);
             tripsShow.ShowTripsTable();
         }
 
-        private void showTripsTableById()
+        private void ShowTripsTableById()
         {
-            var tripsShow = new TripsViewController();
-            tripsShow.GoReturnMainMenu += showMenu;
+            var tripsShow = new TripsViewController(ShowMenu);
             tripsShow.ShowTripsTableById();
         }
 
         private void ShowTripsTableByTripTo()
         {
-            var tripsShow = new TripsViewController();
-            tripsShow.GoReturnMainMenu += showMenu;
+            var tripsShow = new TripsViewController(ShowMenu);
             tripsShow.ShowTripsTableByTripTo();
         }
 
-        private void showTripsTableByCurrentDay()
+        private void ShowTripsTableByCurrentDay()
         {
-            var tripsShow = new TripsViewController();
-            tripsShow.GoReturnMainMenu += showMenu;
+            var tripsShow = new TripsViewController(ShowMenu);
             tripsShow.ShowTripsTableByCurrentDay();
         }
 
-        private void showTripsTableByNext7Days()
+        private void ShowTripsTableByNext7Days()
         {
-            var tripsShow = new TripsViewController();
-            tripsShow.GoReturnMainMenu += showMenu;
+            var tripsShow = new TripsViewController(ShowMenu);
             tripsShow.ShowTripsTableByNext7Days();
         }
 
-        private void showTripsTableByTicketPriceLess()
+        private void ShowTripsTableByTicketPriceLess()
         {
-            var tripsShow = new TripsViewController();
-            tripsShow.GoReturnMainMenu += showMenu;
+            var tripsShow = new TripsViewController(ShowMenu);
             tripsShow.ShowTripsTableByTicketPriceLess();
         }
 
-        private void showTripsTableByBusCapacityTheMore()
+        private void ShowTripsTableByBusCapacityTheMore()
         {
-            var tripsShow = new TripsViewController();
-            tripsShow.GoReturnMainMenu += showMenu;
+            var tripsShow = new TripsViewController(ShowMenu);
             tripsShow.ShowTripsTableByBusCapacityTheMore();
         }
 
-        private void showAdminLoginDialog()
+        private void ShowAdminLoginDialog()
         {
-            var userLevel = new AdminController();
+            var userLevel = new AdminMenuController(_menuView);
             userLevel.ShowAdminLoginDialog();
         }
     }

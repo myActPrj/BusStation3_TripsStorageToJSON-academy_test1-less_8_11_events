@@ -5,7 +5,7 @@ namespace BusStation.View
 {
     public class InputComponent
     {
-        public Action GoNextWaitKeyEsc = delegate { };     //GoNextWaitKeyDone GoNextWaitKeyEsc
+        public Action GoNextWaitKeyEscEventHandler = delegate { };     //GoNextWaitKeyDone GoNextWaitKeyEsc
         public int GetInputInt()
         {
             bool isParsed;
@@ -36,7 +36,23 @@ namespace BusStation.View
             return result;
         }
 
+        public bool GetConfirmQuestion()
+        {
+            do
+            {
+                string confirm = GetInputString().ToLower();
+                if (confirm == "y")
+                {
+                    return true;
+                }
+                if (confirm == "n")
+                {
+                    return false;
+                }
+                Console.WriteLine("No correct input, plase repeeat input");
 
+            } while (true);
+        }
         //Затримка виведення наступної порції данних на екран, поки не буде натиснута будь-яка калавіша
         public void WaitKeyEsc()  // WaitKeyForReturnPrevMenu()
         {
@@ -47,7 +63,7 @@ namespace BusStation.View
             while (Console.ReadKey().Key != ConsoleKey.Escape)
             {
             }
-            GoNextWaitKeyEsc();
+            GoNextWaitKeyEscEventHandler();
         }
 
     }
