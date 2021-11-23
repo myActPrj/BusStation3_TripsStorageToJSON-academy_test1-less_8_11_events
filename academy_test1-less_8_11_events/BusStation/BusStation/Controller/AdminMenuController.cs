@@ -53,9 +53,9 @@ namespace BusStation.Controller
                 case 1:
                     ShowTripsTable();
                     break;
-                case 2:
-                    //AddNewTrip();
-                    break;
+                //case 2:
+                //    AddNewTrip();
+                    //break;
                 case 3:
                     //EditTripById();
                     break;
@@ -74,14 +74,16 @@ namespace BusStation.Controller
         }
 
         //private void AddNewTrip()
+        //{
+        //    var tripsShow = new TripsViewController(ShwowAdminMenu);
+        //    tripsShow.AddNewTrip();
+        //}
 
         //private void EditTripById();
         private void DeleteTripById()
         {
             var tripsShow = new TripsViewController(ShwowAdminMenu);
             tripsShow.DeleteTripsById();
-
-            //tripsShow.ShowTripsTable();
         }
 
     }

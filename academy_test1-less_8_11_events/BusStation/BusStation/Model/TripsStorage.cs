@@ -148,6 +148,5 @@ namespace BusStation.Model
             }
             return _instance;
         }
-
     }
 }

@@ -9,20 +9,29 @@ namespace BusStation.View
     class TripsView
     {
         public event Action<string> ShowInfo = delegate { };
+        //public event Action<string> ShowWarning = delegate { };
+
         public event Action<int> ShowTripsByInputId = delegate { };
         public event Action<string> ShowTripsByInputTripTo = delegate { };
         public event Action<float> ShowTripsByTnputTripToTickedPriceLess = delegate { };
         public event Action<int> ShowTripsByInputBusCapacityTheMore = delegate { };
         public event Action GoReturnToMainMenu = delegate { };
+        public event Action<int> GoDeleteTripIdIfExist = delegate { };
         public event Action<int> DeleteTripsByInputId = delegate { };
+        //public event Action SaveTrip = delegate { };
 
         private readonly InputComponent _input;
+
 
         public TripsView()
         {
             _input = new InputComponent();
+            //_input.ShowWarning += ShowWarning;
         }
-
+        //~TripsView()
+        //{
+        //    _input.ShowWarning -= ShowWarning;
+        //}
         private void showTripsHeader()
         {
             //Console.WriteLine("N     DEPARTURE      FROM     .....");
@@ -67,7 +76,17 @@ namespace BusStation.View
             Console.WriteLine("Please input delete Trip Id:");
             int tripId = _input.GetInputInt();
             //ShowTripsByInputId(tripId);
-            GoConfirmDeleteTripId(tripId);
+
+            GoDeleteTripIdIfExist(tripId);
+            
+            //GoConfirmDeleteTripId(tripId);
+        }
+        public void ShowMessageInputDeleteTripIdNoExist(int tripId)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Inputed delete Trip Id: {tripId} no exist");
+            Console.ForegroundColor = ConsoleColor.White;
+            _input.WaitKeyEsc();
         }
         public void GoConfirmDeleteTripId(int tripId)
         {
@@ -76,12 +95,39 @@ namespace BusStation.View
             {
                 DeleteTripsByInputId(tripId);
             }
+            else
+            {
+                goReturnMainMenu();
+            }
         }
 
+        //public void GoInputNewTrip(Model.TripModel trip)
+        //{
+        //    Console.WriteLine($"Новий маршрут Id: {trip.Id}");
 
+        //    Console.WriteLine("DepartureTime");
+        //    DateTime DepartureTime = _input.GetInputDateTime();
 
-    
+        //    Console.WriteLine("TripFrom");
+        //    string TripFrom = _input.GetInputString();
 
+        //    Console.WriteLine("ArrivalTime");
+        //    DateTime ArrivalTime = _input.GetInputDateTime();
+
+        //    Console.WriteLine("TripTo");
+        //    string TripTo = _input.GetInputString();
+
+        //    Console.WriteLine("Bus Model name");
+        //    string BusModel = _input.GetInputString();
+
+        //    Console.WriteLine("Bus Capacity");
+        //    int BusCapacity = _input.GetInputInt();
+
+        //    Console.WriteLine("TicketPrice");
+        //    float TicketPrice = _input.GetInputMoney();
+
+        //    SaveTrip();
+        //}
 
         public void GoInputTripTo()
         {
@@ -104,5 +150,12 @@ namespace BusStation.View
             ShowTripsByInputBusCapacityTheMore(busCapacity);
         }
 
+
+        public void ShowWarning(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
     }
 }

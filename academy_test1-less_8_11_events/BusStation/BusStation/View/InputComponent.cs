@@ -5,6 +5,8 @@ namespace BusStation.View
 {
     public class InputComponent
     {
+
+        public Action<string> ShowWarning = delegate { };
         public Action GoNextWaitKeyEscEventHandler = delegate { };     //GoNextWaitKeyDone GoNextWaitKeyEsc
         public int GetInputInt()
         {
@@ -15,6 +17,29 @@ namespace BusStation.View
                 //Console.WriteLine("Enter integer, and press Enter");
                 var userChoice = Console.ReadLine();
                 isParsed = int.TryParse(userChoice, out result);
+                if(!isParsed)
+                {
+                    ShowWarning("No correct input integer value, please repeat input");
+                }
+            } while (!isParsed);
+            return result;
+        }
+
+        public DateTime GetInputDateTime()
+        {
+            bool isParsed;
+            DateTime result;
+            do
+            {
+                Console.WriteLine("Enter dateTime , and press Enter");
+
+                string userChoice = GetInputString();
+
+                isParsed = DateTime.TryParse(userChoice, out result);
+                if (!isParsed)
+                {
+                    ShowWarning("No correct input dateTime value, please repeat input");
+                }
             } while (!isParsed);
             return result;
         }
@@ -49,7 +74,7 @@ namespace BusStation.View
                 {
                     return false;
                 }
-                Console.WriteLine("No correct input, plase repeeat input");
+                ShowWarning("No correct input Y/N, plase repeeat input");
 
             } while (true);
         }

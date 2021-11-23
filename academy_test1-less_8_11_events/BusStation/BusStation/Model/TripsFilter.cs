@@ -37,5 +37,24 @@ namespace BusStation.Model
             List<TripModel> tripsByBusCapacityIsMore = trips.Where(trip => trip.Bus.Capacity > busCapacityMore).ToList();
             return tripsByBusCapacityIsMore;
         }
+
+        public static int GetMaxTripId(List<TripModel> trips)
+        {
+            int maxTripId = 0;
+            if (trips!=null)
+            {
+                foreach (var trip in trips)
+                {
+                    if (trip.Id > maxTripId)
+                    {
+                        maxTripId = trip.Id;
+                    }
+                }
+            }
+            return maxTripId;
+        }
+
+
+
     }
 }

@@ -28,5 +28,10 @@ namespace BusStation.Model
             Bus = bus;
             TicketPrice = ticketPrice;
         }
+        public TripModel(int id)
+        {
+            Id = id;
+        }
+
     }
 }

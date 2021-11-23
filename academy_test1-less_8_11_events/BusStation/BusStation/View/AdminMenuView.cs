@@ -41,8 +41,11 @@ namespace BusStation.Controller
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Inputed password is no Correct");
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     Console.WriteLine("for try again press any key, for cancell press Esc");
+                    Console.ForegroundColor = ConsoleColor.White;
                     if (Console.ReadKey().Key == ConsoleKey.Escape)
                     {
                         isIputedPassword = true;

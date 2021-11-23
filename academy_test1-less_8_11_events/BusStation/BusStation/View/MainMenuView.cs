@@ -16,6 +16,11 @@ namespace BusStation.View
         public MainMenuView()
         {
             _input = new InputComponent();
+            _input.ShowWarning += ShowWarning;
+        }
+        ~MainMenuView()
+        {
+            _input.ShowWarning -= ShowWarning;
         }
 
         private void ShowBorderLine()
@@ -49,42 +54,32 @@ namespace BusStation.View
                     isCorrect = true;
                     menuSelectedEventHandler(userChoice);
                 }
+                if(!isCorrect)
+                {
+                    ShowWarning($"Not exist menu item '{userChoice}', please repeat input");
+                }
             } while (!isCorrect);
 
         }
 
-        //public void WaitSelectMenuChoice(List<MenuChoiceModel> choices)
-        //{
-        //    var isCorrect = false;
-        //    do
-        //    {
-        //        var userChoice = _input.GetInputInt();
-        //        if (choices.Any(ch => ch.ChoiceId == userChoice))
-        //        {
-        //            isCorrect = true;
-        //            MenuSelectedEvent(userChoice);
-        //        }
-        //    } while (!isCorrect);
-        //}
-
         public void ShowError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("ERROR!!: "+ message);
+            Console.WriteLine(message);
             Console.ResetColor();
         }
         //public void ShowInfo(string message)
         //{
         //    Console.ForegroundColor = ConsoleColor.Blue;
-        //    Console.WriteLine("INFO!!: " + message);
+        //    Console.WriteLine(message);
         //    Console.ResetColor();
         //}
-        //public void ShowWarning(string message)
-        //{
-        //    Console.ForegroundColor = ConsoleColor.Yellow;
-        //    Console.WriteLine("WARNING!!: " + message);
-        //    Console.ResetColor();
-        //}
+        public void ShowWarning(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
 
     }
 }
